@@ -1,7 +1,9 @@
 import * as authInstance from './auth';
 import * as authService from './utils/authService';
+import * as baseInstance from './embed/base';
 import { AuthType, EmbedConfig } from './types';
 import { executeAfterWait } from './test/test-utils';
+import { searchEmbedBetaWarningMessage } from './auth';
 
 const thoughtSpotHost = 'http://localhost:3000';
 const username = 'tsuser';
@@ -114,6 +116,7 @@ describe('Unit test for auth', () => {
     });
 
     test('doTokenAuth: when user is loggedIn', async () => {
+        spyOn(authInstance, 'checkReleaseVersionInBeta');
         jest.spyOn(authService, 'fetchSessionInfoService').mockImplementation(
             async () => ({
                 json: () => mockSessionInfo,
@@ -125,6 +128,85 @@ describe('Unit test for auth', () => {
         );
         expect(authService.fetchSessionInfoService).toBeCalled();
         expect(authInstance.loggedInStatus).toBe(true);
+    });
+
+    test('doTokenAuth: when releaseVersion is 8.4.0.sw', async () => {
+        const mockAlert = spyOn(window, 'alert');
+        jest.spyOn(authService, 'fetchSessionInfoService').mockImplementation(
+            async () => ({
+                json: () => ({
+                    ...mockSessionInfo,
+                    releaseVersion: '8.4.0.sw',
+                }),
+                status: 200,
+            }),
+        );
+        await authInstance.doTokenAuth(
+            embedConfig.doTokenAuthSuccess('authToken'),
+        );
+        expect(authService.fetchSessionInfoService).toBeCalled();
+        expect(authInstance.loggedInStatus).toBe(true);
+        expect(mockAlert).toBeCalledWith(searchEmbedBetaWarningMessage);
+    });
+
+    test('doTokenAuth: when releaseVersion is below 8.4.0.sw', async () => {
+        const mockAlert = spyOn(window, 'alert');
+        jest.spyOn(authService, 'fetchSessionInfoService').mockImplementation(
+            async () => ({
+                json: () => ({
+                    ...mockSessionInfo,
+                    releaseVersion: '8.3.0.sw',
+                }),
+                status: 200,
+            }),
+        );
+        await authInstance.doTokenAuth(
+            embedConfig.doTokenAuthSuccess('authToken'),
+        );
+        expect(authService.fetchSessionInfoService).toBeCalled();
+        expect(authInstance.loggedInStatus).toBe(true);
+        expect(mockAlert).not.toBeCalled();
+    });
+
+    test('doTokenAuth: when releaseVersion is above 8.5.0.sw', async () => {
+        const mockAlert = spyOn(window, 'alert');
+        jest.spyOn(authService, 'fetchSessionInfoService').mockImplementation(
+            async () => ({
+                json: () => ({
+                    ...mockSessionInfo,
+                    releaseVersion: '8.5.0.sw',
+                }),
+                status: 200,
+            }),
+        );
+        await authInstance.doTokenAuth(
+            embedConfig.doTokenAuthSuccess('authToken'),
+        );
+        expect(authService.fetchSessionInfoService).toBeCalled();
+        expect(authInstance.loggedInStatus).toBe(true);
+        expect(mockAlert).toBeCalledWith(searchEmbedBetaWarningMessage);
+    });
+
+    test('doTokenAuth: Alert should not appear when suppressSearchEmbedBetaWarning is true and releaseVersion is 8.4.0', async () => {
+        const mockAlert = spyOn(window, 'alert');
+        jest.spyOn(baseInstance, 'getEmbedConfig').mockReturnValue({
+            suppressSearchEmbedBetaWarning: true,
+        });
+        jest.spyOn(authService, 'fetchSessionInfoService').mockImplementation(
+            async () => ({
+                json: () => ({
+                    ...mockSessionInfo,
+                    releaseVersion: '8.5.0.sw',
+                }),
+                status: 200,
+            }),
+        );
+        await authInstance.doTokenAuth(
+            embedConfig.doTokenAuthSuccess('authToken'),
+        );
+        expect(authService.fetchSessionInfoService).toBeCalled();
+        expect(authInstance.loggedInStatus).toBe(true);
+        expect(mockAlert).not.toBeCalled();
     });
 
     test('doTokenAuth: when user is not loggedIn & getAuthToken have response', async () => {
@@ -239,9 +321,11 @@ describe('Unit test for auth', () => {
     describe('doBasicAuth', () => {
         beforeEach(() => {
             global.fetch = window.fetch;
+            // jest.spyOn(authInstance, 'checkReleaseVersionInBeta')
         });
 
         it('when user is loggedIn', async () => {
+            spyOn(authInstance, 'checkReleaseVersionInBeta');
             jest.spyOn(
                 authService,
                 'fetchSessionInfoService',
@@ -280,6 +364,7 @@ describe('Unit test for auth', () => {
         });
 
         it('when user is loggedIn & isAtSSORedirectUrl is true', async () => {
+            spyOn(authInstance, 'checkReleaseVersionInBeta');
             Object.defineProperty(window, 'location', {
                 value: {
                     href: authInstance.SSO_REDIRECTION_MARKER_GUID,

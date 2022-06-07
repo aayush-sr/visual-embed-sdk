@@ -1,3 +1,5 @@
+// eslint-disable-next-line import/no-cycle
+import { getEmbedConfig } from './embed/base';
 import { initMixpanel } from './mixpanel-service';
 import { AuthType, EmbedConfig, EmbedEvent } from './types';
 import { getRedirectUrl } from './utils';
@@ -21,6 +23,9 @@ export let sessionInfo: any = null;
 
 export const SSO_REDIRECTION_MARKER_GUID =
     '5e16222e-ef02-43e9-9fbd-24226bf3ce5b';
+
+export const searchEmbedBetaWarningMessage =
+    'Search Embed is in Beta in this release.';
 
 export const EndPoints = {
     AUTH_VERIFICATION: '/callosum/v1/session/info',
@@ -46,6 +51,16 @@ export enum AuthStatus {
     LOGOUT = 'LOGOUT',
 }
 
+export const checkReleaseVersionInBeta = (releaseVersion: string) => {
+    const splittedReleaseVersion = releaseVersion.split('.');
+    const isBetaVersion =
+        Number(splittedReleaseVersion[0]) >= 8 &&
+        Number(splittedReleaseVersion[1]) >= 4;
+    if (!getEmbedConfig().suppressSearchEmbedBetaWarning && isBetaVersion) {
+        alert(searchEmbedBetaWarningMessage);
+    }
+};
+
 /**
  * Check if we are logged into the ThoughtSpot cluster
  * @param thoughtSpotHost The ThoughtSpot cluster hostname or IP
@@ -55,6 +70,8 @@ async function isLoggedIn(thoughtSpotHost: string): Promise<boolean> {
     let response = null;
     try {
         response = await fetchSessionInfoService(authVerificationUrl);
+        const sessionInfoResp = await response.json();
+        checkReleaseVersionInBeta(sessionInfoResp.releaseVersion);
     } catch (e) {
         return false;
     }

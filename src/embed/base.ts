@@ -10,6 +10,7 @@
 import EventEmitter from 'eventemitter3';
 import { getThoughtSpotHost } from '../config';
 import { AuthType, EmbedConfig } from '../types';
+// eslint-disable-next-line import/no-cycle
 import {
     authenticate,
     logout as _logout,
