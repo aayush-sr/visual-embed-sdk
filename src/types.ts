@@ -616,7 +616,7 @@ export enum HostEvent {
     Navigate = 'Navigate',
     /**
      * Gets the current pinboard content.
-     * @version SDK: 1.13.0 | ThoughtSpot: 8.5.0.cl
+     * @version SDK: 1.12.0 | ThoughtSpot: 8.5.0.cl
      */
     getExportRequestForCurrentPinboard = 'getExportRequestForCurrentPinboard',
 }
