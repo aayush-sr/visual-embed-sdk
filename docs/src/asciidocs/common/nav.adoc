@@ -101,8 +101,8 @@
 * link:{{navprefix}}=code-samples[Code samples]
 
 * Resources
-
 ** link:{{navprefix}}=terminology[Terminology changes]
+** link:{{navprefix}}=faqs[FAQs]
 ** link:{{previewPrefix}}/playground/search[Playground, window=_blank]
 ** link:https://developers.thoughtspot.com[ThoughtSpot Developers, window=_blank]
 ** link:https://community.thoughtspot.com/customers/s/[Community, window=_blank]
@@ -110,7 +110,7 @@
 
 
 ////
-** link:{{navprefix}}=faqs[FAQs]
+
 ** link:{{navprefix}}=trblshoot[Troubleshoot common issues]
 
 ////
