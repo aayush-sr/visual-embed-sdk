@@ -8,6 +8,7 @@
     width: calc(100% - #{$docmap-width-desktop});
     color: var(--primary-color);
     padding-left: $document-padding;
+
     
 
     .documentView {
@@ -75,6 +76,7 @@
             max-width: 100%;
             font-family: $font-family-code;
             padding-top: 10px;
+
         }
 
         .wrapperContainer {
@@ -131,6 +133,7 @@
         border-spacing: 0;
         border-collapse: separate;
         width: 100%;
+        overflow: auto;
 
 
         th {
