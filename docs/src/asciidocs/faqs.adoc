@@ -247,7 +247,7 @@ If you did not select the *On by default on all visualizations* checkbox in the 
 .Can I trigger custom actions programmatically?
 [%collapsible]
 ====
-You can use the xref:pinboarddata.adoc[/tspublic/v1/pinboarddata] API and the xref:search-data-api.adoc#search-data-api-ref[Search Data REST API] to pull data out of ThoughtSpot, read it, and then take action on it conditionally based on the results.  For example, you could send a programmatic query to read Sales data of last week and then send an email if they were over or under a certain threshold.
+You can use the xref:pinboarddata.adoc[/tspublic/v1/pinboarddata] API and the xref:search-data-api.adoc#search-data-api-ref[/tspublic/v1/searchdata] to pull data out of ThoughtSpot, read it, and then take action on it conditionally based on the results.  For example, you could send a programmatic query to read Sales data of last week and then send an email if they were over or under a certain threshold.
 ====
 
 .Can I use custom actions to connect to third-party applications?
