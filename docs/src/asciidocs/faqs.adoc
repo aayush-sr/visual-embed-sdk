@@ -111,10 +111,10 @@ For more information, see xref:embed-without-sdk.adoc[Embed without SDK].
 The Visual Embed SDK not only allows you to embed ThoughtSpot, but also provides APIs and attributes to customize your  embedded view. The SDK allows you to:
 
 * xref:embed-search.adoc[modify the layout of the embedded Search page]
-* set the xref:full-embed.adoc[customize layout and home tabs in embedded ThoughtSpot view]
+* xref:full-embed.adoc[customize layout and home tabs in embedded ThoughtSpot view]
 * xref:embed-actions.adoc[show or hide UI actions]
 * xref:runtime-filters.adoc[apply runtime filters]
-* xref:embed-events.adoc[trigger events and respond with an action]
+* xref:embed-events.adoc[trigger events and respond to events with an action]
 * xref:custom-actions.adoc[handle callback custom actions] that trigger a callback and send ThoughtSpot data in a response payload to the parent app.
 ====
 
