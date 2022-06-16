@@ -322,6 +322,7 @@ For more information, see the following pages:
 [%collapsible]
 ====
 To know more about the SDK, see the following resources: +
+
 * xref:visual-embed-sdk.adoc[Visual Embed SDK] in Developer Documentation
 * link:https://developers.thoughtspot.com/guides[Quick starts and tutorials, window=_blank]
 * link:{{visualEmbedSDKPrefix}}/modules.html[Visual Embed SDK Reference Guide, window=_blank]
